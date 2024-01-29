@@ -18,7 +18,7 @@ import java.time.format.DateTimeFormatter;
 import java.util.Set;
 import java.util.TimeZone;
 
-@WebFilter("/time/*")
+@WebFilter("/time-template/*")
 public class TimezoneValidateFilter extends HttpFilter {
     final static int STATUS_400 = 400;
     @Override
@@ -41,7 +41,7 @@ public class TimezoneValidateFilter extends HttpFilter {
             resp.setContentType("text/html");
             PrintWriter out = resp.getWriter();
             out.println("<html><body>");
-            out.println("<h1>" + "Invalid timezone" + "</h1>");
+            out.println("<h1>" + "Invalid timezone  --- !!!" + "</h1>");
             out.println("</html></body>");
         }
 

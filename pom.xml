@@ -5,11 +5,8 @@
   <artifactId>TimeServlet</artifactId>
   <packaging>war</packaging>
 
-<!--  <servlet-version>6.0.0</servlet-version>-->
-<!--  <tomcat-version>10.1.18</tomcat-version>-->
-
   <version>1.0-SNAPSHOT</version>
-  <name>HW_10_Servlet Maven Webapp</name>
+  <name>HW_11</name>
   <url>http://maven.apache.org</url>
 
   <dependencies>
@@ -35,6 +32,12 @@
           <artifactId>flyway-core</artifactId>
           <version>10.4.1</version>
       </dependency>
+      <dependency>
+          <groupId>org.thymeleaf</groupId>
+          <artifactId>thymeleaf</artifactId>
+          <version>3.1.2.RELEASE</version>
+      </dependency>
+
   </dependencies>
   <build>
     <finalName>TimeServlet</finalName>
