@@ -6,9 +6,15 @@ import jakarta.servlet.http.Cookie;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
+import org.thymeleaf.ITemplateEngine;
 import org.thymeleaf.TemplateEngine;
 import org.thymeleaf.context.Context;
+import org.thymeleaf.context.WebContext;
+import org.thymeleaf.templatemode.TemplateMode;
 import org.thymeleaf.templateresolver.FileTemplateResolver;
+import org.thymeleaf.templateresolver.WebApplicationTemplateResolver;
+import org.thymeleaf.web.IWebApplication;
+import org.thymeleaf.web.servlet.JakartaServletWebApplication;
 
 import java.io.IOException;
 import java.io.PrintWriter;
@@ -25,19 +31,24 @@ public class ThymeleafController extends HttpServlet {
     private DateTimeFormatter FORMATTER =  DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");;
     @Override
     public void init() throws ServletException {
-        engine = new TemplateEngine();
 
-        FileTemplateResolver resolver = new FileTemplateResolver();
-        resolver.setPrefix("./templates/");
-        resolver.setSuffix(".html");
-        resolver.setTemplateMode("HTML5");
-        resolver.setOrder(engine.getTemplateResolvers().size());
-        resolver.setCacheable(false);
-        engine.addTemplateResolver(resolver);
+
     }
 
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws IOException {
+
+        WebApplicationTemplateResolver resolver = new WebApplicationTemplateResolver(createApplication(req));
+        resolver.setTemplateMode(TemplateMode.HTML);
+        resolver.setPrefix("/WEB-INF/templates/");
+        resolver.setSuffix(".html");
+        resolver.setCacheTTLMs(Long.valueOf(3600000L));
+        resolver.setCacheable(true);
+
+        final TemplateEngine engine = new TemplateEngine();
+        engine.addTemplateResolver(resolver);
+
+
         resp.setContentType("text/html");
         String timezone = req.getParameter("timezone");
 
@@ -73,5 +84,9 @@ public class ThymeleafController extends HttpServlet {
     @Override
     public void destroy() {
         initTime = null;
+    }
+
+    private JakartaServletWebApplication createApplication(HttpServletRequest request){
+        return JakartaServletWebApplication.buildApplication(request.getServletContext());
     }
 }
