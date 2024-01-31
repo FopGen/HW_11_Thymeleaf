@@ -24,7 +24,7 @@ import java.time.format.DateTimeFormatter;
 import java.util.LinkedHashMap;
 import java.util.Map;
 
-@WebServlet("/time-template")
+@WebServlet("/time")
 public class ThymeleafController extends HttpServlet {
     private TemplateEngine engine;
     private String initTime;
@@ -56,10 +56,12 @@ public class ThymeleafController extends HttpServlet {
 
         if (timezone == null){
             timezone = "UTC";
-            for(Cookie cookie:cookies){
-                if(cookie.getName().equals("lastTimezone")){
-                    timezone = cookie.getValue();
+            if(cookies!=null){
+                for(Cookie cookie:cookies){
+                     if(cookie.getName().equals("lastTimezone")){
+                     timezone = cookie.getValue();
                 }
+            }
             }
         }else{
             resp.addCookie(new Cookie("lastTimezone", timezone));
